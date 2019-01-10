@@ -1,0 +1,8 @@
+### Elements a ignorer ###
+
+
+.idea
+*.iml
+target
+
+*.DS_Store
