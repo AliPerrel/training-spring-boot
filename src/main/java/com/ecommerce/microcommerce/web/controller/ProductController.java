@@ -117,11 +117,29 @@ public class ProductController {
             if (iterator.hasNext()){
                 liste = liste + ",";
             }
-
         }
 
         liste = liste + newLine + "}";
         return liste;
+    }
+
+
+    //Recuperer et trier la liste des produits par ordre alphabetique
+    @GetMapping(value = "/ProduitsTriAlphabetique")
+
+    public MappingJacksonValue trierProduitsParOrdreAlphabetique() {
+
+        Iterable<Product> produits = productDao.findAllByOrderByNomAsc();
+
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("id");
+
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
+
+        MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
+
+        produitsFiltres.setFilters(listDeNosFiltres);
+
+        return produitsFiltres;
     }
 
 
