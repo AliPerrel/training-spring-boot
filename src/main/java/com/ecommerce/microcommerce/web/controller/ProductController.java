@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -29,7 +30,6 @@ public class ProductController {
 
 
     //Récupérer la liste des produits
-
     @RequestMapping(value = "/Produits", method = RequestMethod.GET)
 
     public MappingJacksonValue listeProduits() {
@@ -62,9 +62,7 @@ public class ProductController {
     }
 
 
-
-
-    //ajouter un produit
+    //Ajouter un produit (par son id)
     @PostMapping(value = "/Produits")
 
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
@@ -83,16 +81,47 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
+
+    //Supprimer un produit (par son id)
     @DeleteMapping (value = "/Produits/{id}")
+
     public void supprimerProduit(@PathVariable int id) {
 
         productDao.delete(id);
     }
 
+
+    //Mettre à jour un produit (par son id)
     @PutMapping (value = "/Produits")
     public void updateProduit(@RequestBody Product product) {
 
         productDao.save(product);
+    }
+
+
+    //Calculer la marge des produits
+    @GetMapping(value = "/AdminProduits")
+
+    public String calculerMargeProduits() {
+
+        Iterable<Product> produits = productDao.findAll();
+        //String newLine = System.getProperty("line.separator");
+        String newLine = "<br />";      //saut de ligne pour affichage dans une page d'un navigateur internet
+        String liste = "{" ;
+
+        for (Iterator<Product> iterator = produits.iterator(); iterator.hasNext();) {
+            Product prod = iterator.next();
+            int marge = prod.getPrix() - prod.getPrixAchat() ;
+
+            liste = liste + newLine + "\"" + prod.toString() + "\" : " + marge;
+            if (iterator.hasNext()){
+                liste = liste + ",";
+            }
+
+        }
+
+        liste = liste + newLine + "}";
+        return liste;
     }
 
 
