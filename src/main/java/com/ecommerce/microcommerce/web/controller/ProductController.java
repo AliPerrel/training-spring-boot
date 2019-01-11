@@ -70,7 +70,7 @@ public class ProductController {
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
 
         if (product.getPrix() == 0)
-            throw new ProduitGratuitException("Le produit" + product.getNom() + " ne peut pas être vendu à 0,00€ ! Rien est gratuit dans la vie... ");
+            throw new ProduitGratuitException("Le produit " + product.getNom() + " ne peut pas être vendu à 0,00€ ! Rien est gratuit dans la vie... ");
 
         Product productAdded =  productDao.save(product);
 
