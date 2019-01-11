@@ -2,6 +2,7 @@ package com.ecommerce.microcommerce.web.controller;
 
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -56,7 +57,8 @@ public class ProductController {
 
         Product produit = productDao.findById(id);
 
-        if(produit==null) throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        if(produit == null)
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
 
         return produit;
     }
@@ -66,6 +68,9 @@ public class ProductController {
     @PostMapping(value = "/Produits")
 
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
+
+        if (product.getPrix() == 0)
+            throw new ProduitGratuitException("Le produit" + product.getNom() + " ne peut pas être vendu à 0,00€ ! Rien est gratuit dans la vie... ");
 
         Product productAdded =  productDao.save(product);
 
@@ -101,7 +106,6 @@ public class ProductController {
 
     //Calculer la marge des produits
     @GetMapping(value = "/AdminProduits")
-
     public String calculerMargeProduits() {
 
         Iterable<Product> produits = productDao.findAll();
