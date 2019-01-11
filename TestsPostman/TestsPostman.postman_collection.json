@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "4723f1b9-ed91-43f8-b01c-2f784a02bb17",
+		"name": "TestsPostman",
+		"description": "Nous allons tester dans cette collection toutes les requêtes développées dans le projet ecommerce.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Liste des produits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On récupère la liste de tous les produits."
+			},
+			"response": []
+		},
+		{
+			"name": "Produit avec numéro id 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits",
+						"2"
+					]
+				},
+				"description": "On récupère le produit de la base de données ayant pour id le numéro 2."
+			},
+			"response": []
+		},
+		{
+			"name": "Produit avec numéro id 30",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits",
+						"30"
+					]
+				},
+				"description": "On essaye de récupérer le produit avec pour id le numéro 30. Le but de ce test est de chercher un produit qui n'existe pas dans la base de données et de vérifier que l'exception sur le produit introuvable est levée correctement."
+			},
+			"response": []
+		},
+		{
+			"name": "Ajout d'un produit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nom\": \"Mac Book Pro\",\n    \"prix\": 2000,\n    \"prixAchat\": 500\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On ajoute un produit conforme aux attentes.\n\nLancer la requête \"Liste des produits\" pour vérifier que ce produit à bien été ajouté dans la base de données."
+			},
+			"response": []
+		},
+		{
+			"name": "Ajout d'un produit gratuit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nom\": \"Babyfoot\",\n    \"prix\": 0,\n    \"prixAchat\": 700\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On ajoute un produit avec un prix (de vente) à 0, devant lever une exception expliquant l'erreur de saisi sur le prix.\n\nLancer la requête \"Liste des produits\" pour vérifier que ce produit à bien été ajouté dans la base de données."
+			},
+			"response": []
+		},
+		{
+			"name": "Ajout d'un produit avec un nom trop court",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nom\": \"Ma\",\n    \"prix\": 2000,\n    \"prixAchat\": 500\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On essaye d'ajouter un produit avec un nom trop court (inférieur à 3 caractères). Cela doit lever une exception en indiquant le problème."
+			},
+			"response": []
+		},
+		{
+			"name": "Ajout d'un produit avec un nom trop long",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nom\": \"12345678901234567890a\",\n    \"prix\": 2000,\n    \"prixAchat\": 500\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On essaye d'ajouter un produit avec un nom trop long (supérieur à 20 caractères). Cela doit lever une exception en indiquant le problème."
+			},
+			"response": []
+		},
+		{
+			"name": "Suppression produit avec numéro id 4",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits",
+						"4"
+					]
+				},
+				"description": "On supprime le produit ayant comme id le numéro 4.\n\nLancer la requête \"Liste des produits\" pour vérifier que ce produit à bien été supprimé de la base de données."
+			},
+			"response": []
+		},
+		{
+			"name": "Mise à jour du produit id 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 3,\n    \"nom\": \"Babyfoot\",\n    \"prix\": 1000,\n    \"prixAchat\": 700\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Produits"
+					]
+				},
+				"description": "On met à jour le produit ayant comme id le numéro 3.\n\nLancer la requête \"Liste des produits\" pour vérifier que ce produit à bien été mis à jour dans la base de données."
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des produits avec marge",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/AdminProduits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"AdminProduits"
+					]
+				},
+				"description": "On récupère la liste des produits de la base de données en précisant la marge faite entre le prix d'achat et le prix de vente.\n\nMettre sur \"preview\" la réponse obtenue dans \"body\" pour voir correctement les retours à la ligne."
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des produits triés par ordre alphabétique",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:9090/ProduitsTriAlphabetique",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"ProduitsTriAlphabetique"
+					]
+				},
+				"description": "On récupère la liste des produits, avec les noms triés par ordre alphabétique."
+			},
+			"response": []
+		}
+	]
+}
