@@ -15,6 +15,8 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import org.springframework.ui.Model;
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Iterator;
@@ -28,6 +30,12 @@ public class ProductController {
 
     @Autowired
     private ProductDao productDao;
+
+
+    /*@RequestMapping("/")
+    public String index(Model model) {
+        return "/index";
+    }*/
 
 
     //Récupérer la liste des produits
